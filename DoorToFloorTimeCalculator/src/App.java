@@ -5,7 +5,7 @@
  * Door to Floor Time Calculator
  * 
  * Created by Willy Kao on 2020-07-20.
- * Last modified: 2020-10-21.
+ * Last modified: 2020-12-22.
  * Copyright © 2020 Willy Kao. All rights reserved.
  */
 

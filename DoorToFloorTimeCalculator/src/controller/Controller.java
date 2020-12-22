@@ -16,64 +16,67 @@ public class Controller {
 	}
 
 	public void initView() {
-		view.getNbPaletsTextfield().setText("Please enter an integer.");
+		view.getNbPalletsTextfield().setText("Please enter an integer.");
 		view.getNbBigBoxesTextfield().setText("Please enter an integer.");
-		view.getNbAssociatesTextfield().setText("Please enter an integer.");
-		
+		view.getNbAssociatesTruckTextfield().setText("Please enter an integer.");
+
 		view.getNbBoxesStackedTextfield().setText("Only integers, please!");
 		view.getNbAssoProcessingTextfield().setText("... here also!");
 		view.getTotalBreakTimeTextfield().setText("... you're almost done!");
 	}
 
 	public void initController() {
-		view.getPaletsButton().addActionListener(e -> saveFirstname());
-		view.getBigBoxesButton().addActionListener(e -> saveLastname());
-		view.getAssociatesButton().addActionListener(e -> saveMiddlename());
-		view.getHello().addActionListener(e -> sayHello());
-		
-		view.getNbBoxesStackedButton().addActionListener(e -> saveOnename());
-		view.getNbAssoProcessingButton().addActionListener(e -> saveTwoname());
-		view.getTotalBreakTimeButton().addActionListener(e -> saveThreename());
-		view.getByeBye().addActionListener(e -> saveFinalname());
+		view.getPalletsButton().addActionListener(e -> saveNumberOfPallets());
+		view.getBigBoxesButton().addActionListener(e -> saveNumberOfBigBoxes());
+		view.getAssociatesTruckButton().addActionListener(e -> saveNbOfAssociatesTruck());
+		view.getHello().addActionListener(e -> showDeliveryETA());
+
+		view.getNbBoxesStackedButton().addActionListener(e -> saveNbOfSortedBoxes());
+		view.getNbAssoProcessingButton().addActionListener(e -> saveNbOfAssociatesProcessing());
+		view.getTotalBreakTimeButton().addActionListener(e -> saveTotalBreakTime());
+		view.getByeBye().addActionListener(e -> showProcessingETA());
 	}
 
-	private void saveFirstname() {
-		model.setNumberOfPalets(view.getNbPaletsTextfield().getText());
+	private void saveNumberOfPallets() {
+		model.setNbOfPallets(view.getNbPalletsTextfield().getText());
 
 		try {// if is number
-			Integer.parseInt(model.getNumberOfPalets());
-			JOptionPane.showMessageDialog(null, "# of pallets saved : " + model.getNumberOfPalets(), "Info", JOptionPane.INFORMATION_MESSAGE);
+			Integer.parseInt(model.getNbOfPallets());
+			JOptionPane.showMessageDialog(null, "# of pallets saved : " + model.getNbOfPallets(), "Info",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			System.out.println("1st field is not a number!");
 		}
 
 	}
-	
-	private void saveLastname() {
-		model.setNumberOfBigBoxes(view.getNbBigBoxesTextfield().getText());
+
+	private void saveNumberOfBigBoxes() {
+		model.setNbOfBigBoxes(view.getNbBigBoxesTextfield().getText());
 
 		try {// if is number
-			Integer.parseInt(model.getNumberOfBigBoxes());
-			JOptionPane.showMessageDialog(null, "# of big boxes saved : " + model.getNumberOfBigBoxes(), "Info", JOptionPane.INFORMATION_MESSAGE);
+			Integer.parseInt(model.getNbOfBigBoxes());
+			JOptionPane.showMessageDialog(null, "# of big boxes saved : " + model.getNbOfBigBoxes(), "Info",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			System.out.println("2nd field is not a number!");
 		}
 
 	}
-	
-	private void saveMiddlename() {
-		model.setNbAssociates(view.getNbAssociatesTextfield().getText()); //string type
+
+	private void saveNbOfAssociatesTruck() {
+		model.setNbOfAssociatesTruck(view.getNbAssociatesTruckTextfield().getText()); // string type
 
 		try {// if is number
-			//if Integer.parseInt is possible AND if it is less than 0...
-			if(Integer.parseInt(model.getNbAssociates()) < 0) {
+				// if Integer.parseInt is possible AND if it is less than 0...
+			if (Integer.parseInt(model.getNbOfAssociatesTruck()) < 0) {
 				throw new IllegalArgumentException("Only positive numbers allowed!");
-				
+
 			}
-			//Integer.parseInt(model.getNbAssociates()); //convert string to int
-			JOptionPane.showMessageDialog(null, "# of associates saved : " + model.getNbAssociates(), "Info", JOptionPane.INFORMATION_MESSAGE);
+			// Integer.parseInt(model.getNbAssociates()); //convert string to int
+			JOptionPane.showMessageDialog(null, "# of associates saved : " + model.getNbOfAssociatesTruck(), "Info",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			System.out.println("3rd field is not a number!");
@@ -83,52 +86,56 @@ public class Controller {
 		}
 
 	}
-	
-	
-	private void sayHello() {
-		
+
+	private void showDeliveryETA() {
+
 		try {// if is number
-			model.setNumberOfBoxes(model.calculateNumberOfBoxes(Integer.parseInt(model.getNumberOfPalets()), Integer.parseInt(model.getNumberOfBigBoxes())));
-			model.setEstimatedUnloadingTime(model.calculateEstimatedUnloadingTime(Integer.parseInt(model.getNbAssociates())));
-			
-			JOptionPane.showMessageDialog(null, "# of pallets : " + model.getNumberOfPalets() + "\n" 
-			+ "# of big boxes : " + model.getNumberOfBigBoxes() + "\n" 
-			+ "Total : " + model.getNumberOfBoxes() + " boxes" + "\n" 
-			+ "# of associates : " + model.getNbAssociates() + "\n\n"
-			+ "            ETA : " + model.getEstimatedUnloadingTime(), "Results", JOptionPane.INFORMATION_MESSAGE);
+			model.setNumberOfBoxes(model.calculateNumberOfBoxes(Integer.parseInt(model.getNbOfPallets()),
+					Integer.parseInt(model.getNbOfBigBoxes())));
+			model.setEstimatedUnloadingTime(
+					model.calculateEstimatedUnloadingTime(Integer.parseInt(model.getNbOfAssociatesTruck())));
+
+			JOptionPane.showMessageDialog(null,
+					"# of pallets : " + model.getNbOfPallets() + "\n" + "# of big boxes : "
+							+ model.getNbOfBigBoxes() + "\n" + "Total : " + model.getNumberOfBoxes() + " boxes"
+							+ "\n" + "# of associates : " + model.getNbOfAssociatesTruck() + "\n\n" + "            ETA : "
+							+ model.getEstimatedUnloadingTime(),
+					"Results", JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			System.out.println("Invalid inputs!");
 		}
 	}
-	
-	private void saveOnename() {
-		//model.setNbBoxesSorted(view.getNbBoxesStackedTextfield().getText());
-		//Integer.parseInt(model.getNbBoxesStacked());
-		
+
+	private void saveNbOfSortedBoxes() {
+		// model.setNbBoxesSorted(view.getNbBoxesStackedTextfield().getText());
+		// Integer.parseInt(model.getNbBoxesStacked());
+
 		try {
 			model.setNbBoxesSorted(Integer.parseInt(view.getNbBoxesStackedTextfield().getText()));
-			//view.getNbBoxesStackedTextfield().setText(Integer.toString(model.getNumberOfBoxes()));
-			JOptionPane.showMessageDialog(null, "# of sorted boxes saved : " + model.getNbBoxesSorted(), "Info", JOptionPane.INFORMATION_MESSAGE);
+			// view.getNbBoxesStackedTextfield().setText(Integer.toString(model.getNumberOfBoxes()));
+			JOptionPane.showMessageDialog(null, "# of sorted boxes saved : " + model.getNbBoxesSorted(), "Info",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println("1st field is not a number!");
 		}
-		
+
 	}
 
-	private void saveTwoname() {
-		
-		model.setNumberOfAssoProcess(view.getNbAssoProcessingTextfield().getText()); //string type
+	private void saveNbOfAssociatesProcessing() {
+
+		model.setNbOfAssociatesProcessing(view.getNbAssoProcessingTextfield().getText()); // string type
 
 		try {// if is number
-			//if Integer.parseInt is possible AND if it is less than 0...
-			if(Integer.parseInt(model.getNumberOfAssoProcess()) < 0) {
+				// if Integer.parseInt is possible AND if it is less than 0...
+			if (Integer.parseInt(model.getNbOfAssociatesProcessing()) < 0) {
 				throw new IllegalArgumentException("Only positive numbers allowed!");
-				
+
 			}
-			//Integer.parseInt(model.getNbAssociates()); //convert string to int
-			JOptionPane.showMessageDialog(null, "# of processing associates saved: " + model.getNumberOfAssoProcess(), "Info", JOptionPane.INFORMATION_MESSAGE);
+			// Integer.parseInt(model.getNbAssociates()); //convert string to int
+			JOptionPane.showMessageDialog(null, "# of processing associates saved : " + model.getNbOfAssociatesProcessing(),
+					"Info", JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			System.out.println("2nd field is not a number!");
@@ -137,16 +144,18 @@ public class Controller {
 			System.out.println("# of associates cannot be less than 0!");
 		}
 	}
-	
-	private void saveThreename() {
+
+	private void saveTotalBreakTime() {
 		model.setTotalDurationBreaks(view.getTotalBreakTimeTextfield().getText());
-		
+
 		try {
-			if(Integer.parseInt(model.getTotalDurationBreaks()) < 0) {
+			if (Integer.parseInt(model.getTotalDurationBreaks()) < 0) {
 				throw new IllegalArgumentException("Only positive amount of time allowed!");
 			}
-			JOptionPane.showMessageDialog(null, "Total duration of breaks saved: " + model.getTotalDurationBreaks() + " min.", "Info", JOptionPane.INFORMATION_MESSAGE);
-		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null,
+					"Total duration of breaks saved : " + model.getTotalDurationBreaks() + " min.", "Info",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			System.out.println("3rd field is not a number!");
 		} catch (IllegalArgumentException e) {
@@ -154,11 +163,16 @@ public class Controller {
 			System.out.println("Amount of time cannot be less than 0!");
 		}
 	}
-	
-	private void saveFinalname() {
-		model.setEstimatedProcessingTime(model.calculateEstimatedProcessingTime(Integer.parseInt(model.getNumberOfAssoProcess())));
-		JOptionPane.showMessageDialog(null, "ETA!" + model.getEstimatedProcessingTime(), "Info", JOptionPane.INFORMATION_MESSAGE);
-	}
 
+	private void showProcessingETA() {
+		model.setEstimatedProcessingTime(
+				model.calculateEstimatedProcessingTime(Integer.parseInt(model.getNbOfAssociatesProcessing())));
+		JOptionPane.showMessageDialog(null, 
+				"# of boxes sorted : " + model.getNbBoxesSorted() + "\n" +
+				"# of processing associates : " + model.getNbOfAssociatesProcessing() + "\n" +
+				"Total duration of breaks : " + model.getTotalDurationBreaks() + " min." + "\n\n" + 
+				"            ETA : " + model.getEstimatedProcessingTime(), "Info",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
 
 }
